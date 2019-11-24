@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Tetris"
+config/name="TetrominoGame"
 run/main_scene="res://MainScene.tscn"
 
 [display]
