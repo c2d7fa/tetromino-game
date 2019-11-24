@@ -17,5 +17,4 @@ text = "9999 FPS"
 script = ExtResource( 2 )
 
 [node name="Board" type="Node2D" parent="."]
-position = Vector2( 143.865, 33.162 )
 script = ExtResource( 3 )

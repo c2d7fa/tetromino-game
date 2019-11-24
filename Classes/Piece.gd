@@ -1,6 +1,6 @@
 const SingleTileGrey = preload("res://Scenes/SingleTileGrey.tscn")
 
-const tile_width = 32
+const tile_width = 48
 
 enum PieceType { I, O, T, J, L, S, Z }
 

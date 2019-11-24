@@ -28,6 +28,4 @@ func _unhandled_key_input(event):
 func _ready():
   piece = Piece.new(piece_type)
   add_child(piece.node)
-
-  $Board.position.x = 32 * 3
-  $Board.position.y = 32 * 1
+  
