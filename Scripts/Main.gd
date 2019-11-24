@@ -18,7 +18,7 @@ func _unhandled_key_input(event):
       KEY_RIGHT:
         piece.move_right()
       KEY_SPACE:
-        piece_type += 1
+        piece_type = (piece_type + 1) % Piece.PieceType.size()
         remove_child(piece.node)
         piece = Piece.new(piece_type)
         add_child(piece.node)

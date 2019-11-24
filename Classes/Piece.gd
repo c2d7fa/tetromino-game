@@ -19,15 +19,29 @@ const coords = {
   PieceType.Z: [[1, 0], [1, 1], [0, 1], [0, 2]],
 }
 
+const colors = {
+  PieceType.I: [0x00, 0xFF, 0xFF],
+  PieceType.O: [0xFF, 0xFF, 0x00],
+  PieceType.T: [0xFF, 0x00, 0xFF],
+  PieceType.J: [0x00, 0x00, 0xFF],
+  PieceType.L: [0xFF, 0x80, 0x00],
+  PieceType.S: [0x00, 0xFF, 0x00],
+  PieceType.Z: [0xFF, 0x00, 0x00],
+}
+
 func _init(piece_type):
   node = Node2D.new()
   node.name = "Piece_Type%s" % PieceType.keys()[piece_type]
+  var color = colors[piece_type]
   for index in range(coords[piece_type].size()):
     var coord = coords[piece_type][index]
     var tile = SingleTileGrey.instance()
     tile.name = "Tile_%s" % index
     tile.position.x = coord[0] * tile_width
     tile.position.y = coord[1] * tile_width
+    tile.modulate.r8 = color[0]
+    tile.modulate.g8 = color[1]
+    tile.modulate.b8 = color[2]
     node.add_child(tile)
 
 func _update_position():
