@@ -6,15 +6,15 @@ enum PieceType { I, O, T, J, L, S, Z }
 
 var node: Node2D
 
-var x = 0
-var y = 0
+var x = 4
+var y = 4
 
 const coords = {
-  PieceType.I: [[0, 0], [0, 1], [0, 2], [0, 3]],
-  PieceType.O: [[0, 0], [0, 1], [1, 0], [1, 1]],
-  PieceType.T: [[0, 0], [0, 1], [0, 2], [1, 1]],
-  PieceType.J: [[0, 0], [0, 1], [0, 2], [1, 0]],
-  PieceType.L: [[0, 0], [0, 1], [0, 2], [1, 2]],
+  PieceType.I: [[1, 0], [1, 1], [1, 2], [1, 3]],
+  PieceType.O: [[1, 0], [1, 1], [2, 0], [2, 1]],
+  PieceType.T: [[1, 0], [1, 1], [1, 2], [2, 1]],
+  PieceType.J: [[1, 0], [1, 1], [1, 2], [2, 0]],
+  PieceType.L: [[1, 0], [1, 1], [1, 2], [2, 2]],
   PieceType.S: [[0, 0], [0, 1], [1, 1], [1, 2]],
   PieceType.Z: [[1, 0], [1, 1], [0, 1], [0, 2]],
 }
@@ -29,20 +29,46 @@ const colors = {
   PieceType.Z: [0xFF, 0x40, 0x40],
 }
 
+var _filled_tiles = [
+  [false, false, false, false],
+  [false, false, false, false],
+  [false, false, false, false],
+  [false, false, false, false],
+]
+
+var _piece_type = null
+var _color = null
+
 func _init(piece_type):
+  _piece_type = piece_type
+  _color = colors[piece_type]
+
   node = Node2D.new()
   node.name = "Piece_Type%s" % PieceType.keys()[piece_type]
-  var color = colors[piece_type]
-  for index in range(coords[piece_type].size()):
-    var coord = coords[piece_type][index]
-    var tile = SingleTileGrey.instance()
-    tile.name = "Tile_%s" % index
-    tile.position.x = coord[0] * tile_width
-    tile.position.y = coord[1] * tile_width
-    tile.modulate.r8 = color[0]
-    tile.modulate.g8 = color[1]
-    tile.modulate.b8 = color[2]
-    node.add_child(tile)
+
+  for coord in coords[piece_type]:
+    _filled_tiles[coord[0]][coord[1]] = true
+
+  _update_tiles()
+  _update_position()
+
+func _update_tiles():
+  # Clear exisitng tiles
+  while node.get_child_count() > 0:
+    node.remove_child(node.get_child(0))
+
+  # Add in tiles according to filled_tiles
+  for c in 4:
+    for r in 4:
+      if _filled_tiles[c][r]:
+        var tile = SingleTileGrey.instance()
+        tile.name = "Tile_%s_%s" % [c, r]
+        tile.position.x = c * tile_width
+        tile.position.y = r * tile_width
+        tile.modulate.r8 = _color[0]
+        tile.modulate.g8 = _color[1]
+        tile.modulate.b8 = _color[2]
+        node.add_child(tile)
 
 func _update_position():
   node.position.x = x * tile_width
@@ -63,3 +89,24 @@ func move_left():
 func move_right():
   x += 1
   _update_position()
+
+func rotate_counterclockwise():
+  var new_filled_tiles = [[false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false]]   # Yikes!
+
+  if _piece_type == PieceType.O:
+    new_filled_tiles = _filled_tiles
+  elif _piece_type == PieceType.I:
+    for c in 4:
+      for r in 4:
+        new_filled_tiles[c][r] = _filled_tiles[3 - r][c]
+  else:
+    for c in 3:
+      for r in 3:
+        new_filled_tiles[c][r] = _filled_tiles[2 - r][c]
+
+  _filled_tiles = new_filled_tiles
+  _update_tiles()
+
+func rotate_clockwise():
+  for i in 3:
+    rotate_counterclockwise()
