@@ -1,30 +1,28 @@
 extends Node2D
 
-const single_tile_scene = preload("res://Scenes/SingleTileGrey.tscn")
-const tile_width = 32
+const Piece = preload("res://Classes/Piece.gd")
 
-var tile = null
-var tile_x = 0
-var tile_y = 0
+var piece: Piece
 
-func _update_tile_position():
-  tile.position = Vector2(tile_x * tile_width, tile_y * tile_width)
+var piece_type = 0
 
 func _unhandled_key_input(event):
   if event.pressed:
     match event.scancode:
       KEY_UP:
-        tile_y -= 1
+        piece.move_up()
       KEY_DOWN:
-        tile_y += 1
+        piece.move_down()
       KEY_LEFT:
-        tile_x -= 1
+        piece.move_left()
       KEY_RIGHT:
-        tile_x += 1
-    _update_tile_position()
+        piece.move_right()
+      KEY_SPACE:
+        piece_type += 1
+        remove_child(piece.node)
+        piece = Piece.new(piece_type)
+        add_child(piece.node)
 
 func _ready():
-  tile = single_tile_scene.instance()
-  tile.name = "Tile"
-  _update_tile_position()
-  add_child(tile)
+  piece = Piece.new(piece_type)
+  add_child(piece.node)
