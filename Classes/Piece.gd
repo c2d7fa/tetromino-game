@@ -6,8 +6,11 @@ enum PieceType { I, O, T, J, L, S, Z }
 
 var node: Node2D
 
-var x = 4
-var y = 4
+var x = 0
+var y = 0
+
+const board_width = 10
+const board_height = 16
 
 const coords = {
   PieceType.I: [[1, 0], [1, 1], [1, 2], [1, 3]],
@@ -47,6 +50,20 @@ func get_filled_offsets():
         result.append([c, r])
   return result
 
+func _left_offset():
+  var min_x = INF
+  for offset in get_filled_offsets():
+    if offset[0] < min_x:
+      min_x = offset[0]
+  return min_x
+
+func _piece_width():
+  var max_x = 0
+  for offset in get_filled_offsets():
+    if offset[0] > max_x:
+      max_x = offset[0]
+  return max_x - _left_offset()
+
 func color():
   return _color
 
@@ -59,6 +76,8 @@ func _init(piece_type):
 
   for coord in coords[piece_type]:
     _filled_tiles[coord[0]][coord[1]] = true
+
+  x = floor((board_width - 1) / 2) - _left_offset() - ceil(_piece_width() / 2)
 
   _update_tiles()
   _update_position()
