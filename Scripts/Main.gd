@@ -22,6 +22,8 @@ func _unhandled_key_input(event):
         remove_child(piece.node)
         piece = Piece.new(piece_type)
         add_child(piece.node)
+      KEY_ENTER:
+        $Board.place_piece(piece)
       KEY_R:
         piece.rotate_clockwise()
 

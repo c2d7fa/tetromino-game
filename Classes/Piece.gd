@@ -39,6 +39,17 @@ var _filled_tiles = [
 var _piece_type = null
 var _color = null
 
+func get_filled_offsets():
+  var result = []
+  for c in 4:
+    for r in 4:
+      if _filled_tiles[c][r]:
+        result.append([c, r])
+  return result
+
+func color():
+  return _color
+
 func _init(piece_type):
   _piece_type = piece_type
   _color = colors[piece_type]
