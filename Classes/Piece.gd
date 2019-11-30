@@ -202,3 +202,9 @@ func rotate_counterclockwise():
 func rotate_clockwise():
   for i in 3:
     rotate_counterclockwise()
+
+func drop():
+  while !_invalid_position():
+    y += 1
+    _update_position()
+  y -= 1

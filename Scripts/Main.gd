@@ -10,7 +10,8 @@ var piece_type = 0
 func lose():
   get_tree().change_scene_to(GameOverScene)
 
-func place_piece_and_make_new_random():
+func drop_piece_and_make_new_random():
+  piece.drop()
   $Board.place_piece(piece)
   piece_type = (piece_type + 1) % Piece.PieceType.size()
   remove_child(piece.node)
@@ -26,8 +27,8 @@ func _unhandled_key_input(event):
     piece.move_down()
   elif event.is_action_pressed("rotate_clockwise"):
     piece.rotate_clockwise()
-  elif event.pressed && event.scancode == KEY_SPACE:
-    place_piece_and_make_new_random()
+  elif event.is_action_pressed("drop"):
+    drop_piece_and_make_new_random()
 
 func _ready():
   piece = Piece.new(piece_type, $Board, self)
