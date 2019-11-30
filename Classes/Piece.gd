@@ -39,8 +39,9 @@ var _filled_tiles = [
   [false, false, false, false],
 ]
 
-var _piece_type = null
-var _color = null
+var _piece_type
+var _color
+var _board
 
 func get_filled_offsets():
   var result = []
@@ -57,18 +58,53 @@ func _left_offset():
       min_x = offset[0]
   return min_x
 
-func _piece_width():
+func _top_offset():
+  var min_y = INF
+  for offset in get_filled_offsets():
+    if offset[1] < min_y:
+      min_y = offset[1]
+  return min_y
+
+func get_width():
   var max_x = 0
   for offset in get_filled_offsets():
     if offset[0] > max_x:
       max_x = offset[0]
-  return max_x - _left_offset()
+  return max_x + 1 - _left_offset()
+
+func get_height():
+  var max_y = 0
+  for offset in get_filled_offsets():
+    if offset[1] > max_y:
+      max_y = offset[1]
+  return max_y + 1 - _top_offset()
+  
+func get_real_tile_positions():
+  var result = []
+  for offset in get_filled_offsets():
+    result += [[offset[0] + x, offset[1] + y]]
+  return result
+  
+func get_real_x():
+  var real_x = INF
+  for pos in get_real_tile_positions():
+    if pos[0] < real_x:
+      real_x = pos[0]
+  return real_x
+
+func get_real_y():
+  var real_y = INF
+  for pos in get_real_tile_positions():
+    if pos[1] < real_y:
+      real_y = pos[1]
+  return real_y
 
 func color():
   return _color
 
-func _init(piece_type):
+func _init(piece_type, board):
   _piece_type = piece_type
+  _board = board
   _color = colors[piece_type]
 
   node = Node2D.new()
@@ -77,7 +113,7 @@ func _init(piece_type):
   for coord in coords[piece_type]:
     _filled_tiles[coord[0]][coord[1]] = true
 
-  x = ((board_width - 1) / 2) - _left_offset() - (_piece_width() / 2)
+  x = ((board_width - 1) / 2) - _left_offset() - ((get_width() - 1) / 2)
 
   _update_tiles()
   _update_position()
@@ -104,23 +140,24 @@ func _update_position():
   node.position.x = x * tile_width
   node.position.y = y * tile_width
 
-func move_up():
-  y -= 1
-  _update_position()
-
 func move_down():
-  y += 1
-  _update_position()
+  print(get_height())
+  if get_real_y() + get_height() < board_height:
+    y += 1
+    _update_position()
 
 func move_left():
-  x -= 1
-  _update_position()
+  if get_real_x() > 0:
+    x -= 1
+    _update_position()
 
 func move_right():
-  x += 1
-  _update_position()
+  if get_real_x() + get_width() < board_width:
+    x += 1
+    _update_position()
 
 func rotate_counterclockwise():
+  var old_filled_tiles = _filled_tiles
   var new_filled_tiles = [[false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false]]   # Yikes!
 
   if _piece_type == PieceType.O:
@@ -136,6 +173,11 @@ func rotate_counterclockwise():
 
   _filled_tiles = new_filled_tiles
   _update_tiles()
+  
+  if get_real_x() < 0 or get_real_y() + get_height() > board_height or get_real_x() + get_width() > board_width:
+    # Invalid rotation
+    _filled_tiles = old_filled_tiles
+    _update_tiles()
 
 func rotate_clockwise():
   for i in 3:

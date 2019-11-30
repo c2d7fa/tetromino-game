@@ -10,7 +10,7 @@ func place_piece_and_make_new_random():
   $Board.place_piece(piece)
   piece_type = (piece_type + 1) % Piece.PieceType.size()
   remove_child(piece.node)
-  piece = Piece.new(piece_type)
+  piece = Piece.new(piece_type, $Board)
   add_child(piece.node)
 
 func _unhandled_key_input(event):
@@ -26,6 +26,6 @@ func _unhandled_key_input(event):
     place_piece_and_make_new_random()
 
 func _ready():
-  piece = Piece.new(piece_type)
+  piece = Piece.new(piece_type, $Board)
   add_child(piece.node)
   
