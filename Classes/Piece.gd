@@ -78,13 +78,13 @@ func get_height():
     if offset[1] > max_y:
       max_y = offset[1]
   return max_y + 1 - _top_offset()
-  
+
 func get_real_tile_positions():
   var result = []
   for offset in get_filled_offsets():
     result += [[offset[0] + x, offset[1] + y]]
   return result
-  
+
 func get_real_x():
   var real_x = INF
   for pos in get_real_tile_positions():
@@ -102,7 +102,7 @@ func get_real_y():
 func color():
   return _color
 
-func _init(piece_type, board):
+func _init(piece_type, board, main):
   _piece_type = piece_type
   _board = board
   _color = colors[piece_type]
@@ -117,6 +117,10 @@ func _init(piece_type, board):
 
   _update_tiles()
   _update_position()
+
+  if _invalid_position():
+    # We couldn't place piece!
+    main.lose()
 
 func _update_tiles():
   # Clear exisitng tiles
@@ -164,8 +168,11 @@ func _overlaps_board():
       return true
   return false
 
+func _invalid_position():
+  return get_real_x() < 0 or get_real_y() + get_height() > board_height or get_real_x() + get_width() > board_width or _overlaps_board()
+
 func _consider_reverting_move(old_x, old_y, old_filled_tiles):
-  if get_real_x() < 0 or get_real_y() + get_height() > board_height or get_real_x() + get_width() > board_width or _overlaps_board():
+  if _invalid_position():
     # The current state puts the piece in an invalid position; revert to old position.
     x = old_x
     y = old_y
