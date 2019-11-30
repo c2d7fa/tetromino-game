@@ -77,7 +77,7 @@ func _init(piece_type):
   for coord in coords[piece_type]:
     _filled_tiles[coord[0]][coord[1]] = true
 
-  x = floor((board_width - 1) / 2) - _left_offset() - ceil(_piece_width() / 2)
+  x = ((board_width - 1) / 2) - _left_offset() - (_piece_width() / 2)
 
   _update_tiles()
   _update_position()
