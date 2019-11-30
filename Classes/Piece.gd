@@ -141,19 +141,36 @@ func _update_position():
   node.position.y = y * tile_width
 
 func move_down():
-  print(get_height())
-  if get_real_y() + get_height() < board_height:
-    y += 1
-    _update_position()
+  var old_y = y
+  y += 1
+  _consider_reverting_move(x, old_y, _filled_tiles)
+  _update_position()
 
 func move_left():
-  if get_real_x() > 0:
-    x -= 1
-    _update_position()
+  var old_x = x
+  x -= 1
+  _consider_reverting_move(old_x, y, _filled_tiles)
+  _update_position()
 
 func move_right():
-  if get_real_x() + get_width() < board_width:
-    x += 1
+  var old_x = x
+  x += 1
+  _consider_reverting_move(old_x, y, _filled_tiles)
+  _update_position()
+
+func _overlaps_board():
+  for pos in get_real_tile_positions():
+    if _board.is_filled(pos[0], pos[1]):
+      return true
+  return false
+
+func _consider_reverting_move(old_x, old_y, old_filled_tiles):
+  if get_real_x() < 0 or get_real_y() + get_height() > board_height or get_real_x() + get_width() > board_width or _overlaps_board():
+    # The current state puts the piece in an invalid position; revert to old position.
+    x = old_x
+    y = old_y
+    _filled_tiles = old_filled_tiles
+    _update_tiles()
     _update_position()
 
 func rotate_counterclockwise():
@@ -173,11 +190,7 @@ func rotate_counterclockwise():
 
   _filled_tiles = new_filled_tiles
   _update_tiles()
-  
-  if get_real_x() < 0 or get_real_y() + get_height() > board_height or get_real_x() + get_width() > board_width:
-    # Invalid rotation
-    _filled_tiles = old_filled_tiles
-    _update_tiles()
+  _consider_reverting_move(x, y, old_filled_tiles)
 
 func rotate_clockwise():
   for i in 3:

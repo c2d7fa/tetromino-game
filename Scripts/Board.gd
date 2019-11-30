@@ -8,11 +8,20 @@ const tile_width = 48
 const width = 10
 const height = 18
 
+var _filled_tiles = []
+
 func place_piece(piece):
   for offset in piece.get_filled_offsets():
     _fill_tile(piece.x + offset[0], piece.y + offset[1], piece.color())
 
+func is_filled(x, y):
+  for pos in _filled_tiles:
+    if pos[0] == x and pos[1] == y:
+      return true
+  return false
+
 func _fill_tile(x, y, color):
+  _filled_tiles.append([x, y])
   var tile = SingleTileGrey.instance()
   tile.position.x = x * tile_width
   tile.position.y = y * tile_width
