@@ -15,3 +15,12 @@ text = "GAME OVER
 Press any key to play again"
 align = 1
 valign = 1
+
+[node name="FinalScoreLabel" type="Label" parent="."]
+margin_left = 181.0
+margin_top = 308.0
+margin_right = 310.0
+margin_bottom = 357.0
+text = "Lines cleared: 99999"
+align = 1
+valign = 1

@@ -18,6 +18,10 @@ _global_script_class_icons={
 config/name="TetrominoGame"
 run/main_scene="res://Scenes/MainScene.tscn"
 
+[autoload]
+
+GlobalState="*res://Classes/GlobalState.gd"
+
 [display]
 
 window/size/width=480

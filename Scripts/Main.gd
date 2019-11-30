@@ -36,5 +36,11 @@ func _unhandled_key_input(event):
     piece.drop()
 
 func _ready():
+  $Board.connect("row_cleared", GlobalState, "on_line_cleared")
+  GlobalState.connect("score_changed", $UI/ScoreLabel, "on_score_changed")
+  GlobalState.reset()
   randomize()
   _new_piece()
+
+func _on_Board_row_cleared():
+  pass # Replace with function body.

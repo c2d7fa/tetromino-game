@@ -1,5 +1,7 @@
 extends Node2D
 
+signal row_cleared
+
 const BackgroundTile = preload("res://Scenes/BackgroundTile.tscn")
 const SingleTileGrey = preload("res://Scenes/SingleTileGrey.tscn")
 
@@ -58,6 +60,8 @@ func _clear_row(r):
   for tile in _filled_tiles:
     if tile[1] < r:
       tile[1] += 1
+
+  emit_signal("row_cleared")
 
 func _try_clear():
   for r in height:

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/FpsLabel.gd" type="Script" id=2]
-[ext_resource path="res://Scripts/Board.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/ScoreLabel.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Board.gd" type="Script" id=4]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,7 +17,14 @@ margin_bottom = 14.0
 text = "9999 FPS"
 script = ExtResource( 2 )
 
-[node name="Board" type="Node2D" parent="."]
+[node name="ScoreLabel" type="Label" parent="UI"]
+margin_top = 20.0
+margin_right = 74.0
+margin_bottom = 34.0
+text = "Lines: 9999"
 script = ExtResource( 3 )
+
+[node name="Board" type="Node2D" parent="."]
+script = ExtResource( 4 )
 
 [node name="MoveTimer" type="Timer" parent="."]
