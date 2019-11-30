@@ -36,4 +36,5 @@ func _unhandled_key_input(event):
     piece.drop()
 
 func _ready():
+  randomize()
   _new_piece()
