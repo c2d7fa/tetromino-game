@@ -1,16 +1,18 @@
+extends Node2D
+
 const SingleTileGrey = preload("res://Scenes/SingleTileGrey.tscn")
 
 const tile_width = 48
 
 enum PieceType { I, O, T, J, L, S, Z }
 
-var node: Node2D
-
 var x = 0
 var y = 0
 
 const board_width = 10
 const board_height = 16
+
+signal placement
 
 const coords = {
   PieceType.I: [[1, 0], [1, 1], [1, 2], [1, 3]],
@@ -42,6 +44,7 @@ var _filled_tiles = [
 var _piece_type
 var _color
 var _board
+var _move_timer
 
 func get_filled_offsets():
   var result = []
@@ -102,13 +105,13 @@ func get_real_y():
 func color():
   return _color
 
-func _init(piece_type, board, main):
+func _init(piece_type, board, main, move_timer):
   _piece_type = piece_type
   _board = board
   _color = colors[piece_type]
+  _move_timer = move_timer
 
-  node = Node2D.new()
-  node.name = "Piece_Type%s" % PieceType.keys()[piece_type]
+  name = "Piece_Type%s" % PieceType.keys()[piece_type]
 
   for coord in coords[piece_type]:
     _filled_tiles[coord[0]][coord[1]] = true
@@ -122,10 +125,23 @@ func _init(piece_type, board, main):
     # We couldn't place piece!
     main.lose()
 
+  _move_timer.connect("timeout", self, "_on_move_timeout")
+
+  _reset_timer()
+
+func _reset_timer():
+  _move_timer.set_wait_time(0.5)
+  _move_timer.start()
+
+func _on_move_timeout():
+  var valid_move = move_down()
+  if !valid_move:
+    _force_placement()
+
 func _update_tiles():
   # Clear exisitng tiles
-  while node.get_child_count() > 0:
-    node.remove_child(node.get_child(0))
+  while get_child_count() > 0:
+    remove_child(get_child(0))
 
   # Add in tiles according to filled_tiles
   for c in 4:
@@ -138,17 +154,19 @@ func _update_tiles():
         tile.modulate.r8 = _color[0]
         tile.modulate.g8 = _color[1]
         tile.modulate.b8 = _color[2]
-        node.add_child(tile)
+        add_child(tile)
 
 func _update_position():
-  node.position.x = x * tile_width
-  node.position.y = y * tile_width
+  position.x = x * tile_width
+  position.y = y * tile_width
 
 func move_down():
   var old_y = y
   y += 1
-  _consider_reverting_move(x, old_y, _filled_tiles)
+  var reverted = _consider_reverting_move(x, old_y, _filled_tiles)
   _update_position()
+  _reset_timer()
+  return !reverted
 
 func move_left():
   var old_x = x
@@ -179,6 +197,7 @@ func _consider_reverting_move(old_x, old_y, old_filled_tiles):
     _filled_tiles = old_filled_tiles
     _update_tiles()
     _update_position()
+    return true
 
 func rotate_counterclockwise():
   var old_filled_tiles = _filled_tiles
@@ -208,3 +227,7 @@ func drop():
     y += 1
     _update_position()
   y -= 1
+  _force_placement()
+
+func _force_placement():
+  emit_signal("placement")

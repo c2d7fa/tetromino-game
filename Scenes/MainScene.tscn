@@ -18,3 +18,5 @@ script = ExtResource( 2 )
 
 [node name="Board" type="Node2D" parent="."]
 script = ExtResource( 3 )
+
+[node name="MoveTimer" type="Timer" parent="."]
