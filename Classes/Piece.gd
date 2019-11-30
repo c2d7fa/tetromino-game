@@ -45,6 +45,8 @@ var _piece_type
 var _color
 var _board
 var _move_timer
+var _should_force_placement
+var _forced_placement_timer
 
 func get_filled_offsets():
   var result = []
@@ -111,6 +113,10 @@ func _init(piece_type, board, main, move_timer):
   _color = colors[piece_type]
   _move_timer = move_timer
 
+  var tiles = Node2D.new()
+  tiles.name = "Tiles"
+  add_child(tiles)
+
   name = "Piece_Type%s" % PieceType.keys()[piece_type]
 
   for coord in coords[piece_type]:
@@ -127,7 +133,16 @@ func _init(piece_type, board, main, move_timer):
 
   _move_timer.connect("timeout", self, "_on_move_timeout")
 
+  var forced_placement_timer = Timer.new()
+  forced_placement_timer.set_one_shot(true)
+  forced_placement_timer.name = "ForcedPlacementTimer"
+  forced_placement_timer.connect("timeout", self, "_on_should_force_placement")
+  add_child(forced_placement_timer)
+
   _reset_timer()
+
+func _on_should_force_placement():
+  _should_force_placement = true
 
 func _reset_timer():
   _move_timer.set_wait_time(0.5)
@@ -135,13 +150,20 @@ func _reset_timer():
 
 func _on_move_timeout():
   var valid_move = move_down()
+  if valid_move:
+    $ForcedPlacementTimer.stop()
   if !valid_move:
-    _force_placement()
+    if _should_force_placement:
+      _force_placement()
+    elif $ForcedPlacementTimer.is_stopped():
+      $ForcedPlacementTimer.set_wait_time(2)
+      $ForcedPlacementTimer.start()
+
 
 func _update_tiles():
   # Clear exisitng tiles
-  while get_child_count() > 0:
-    remove_child(get_child(0))
+  while $Tiles.get_child_count() > 0:
+    $Tiles.remove_child($Tiles.get_child(0))
 
   # Add in tiles according to filled_tiles
   for c in 4:
@@ -154,7 +176,7 @@ func _update_tiles():
         tile.modulate.r8 = _color[0]
         tile.modulate.g8 = _color[1]
         tile.modulate.b8 = _color[2]
-        add_child(tile)
+        $Tiles.add_child(tile)
 
 func _update_position():
   position.x = x * tile_width
