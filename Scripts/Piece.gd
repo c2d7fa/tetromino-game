@@ -226,28 +226,41 @@ func _consider_reverting_move(old_x, old_y, old_filled_tiles):
     _update_position()
     return true
 
-func rotate_counterclockwise():
+func rotate_clockwise():
+  var old_x = x
+  var old_y = y
   var old_filled_tiles = _filled_tiles
   var new_filled_tiles = [[false, false, false, false], [false, false, false, false], [false, false, false, false], [false, false, false, false]]   # Yikes!
 
-  if _piece_type == PieceType.O:
+  if _piece_type == PieceType.O :
     new_filled_tiles = _filled_tiles
   elif _piece_type == PieceType.I:
     for c in 4:
       for r in 4:
-        new_filled_tiles[c][r] = _filled_tiles[3 - r][c]
+        new_filled_tiles[3 - r][c] = _filled_tiles[c][r]
   else:
     for c in 3:
       for r in 3:
-        new_filled_tiles[c][r] = _filled_tiles[2 - r][c]
+        new_filled_tiles[2 - r][c] = _filled_tiles[c][r]
 
   _filled_tiles = new_filled_tiles
   _update_tiles()
-  _consider_reverting_move(x, y, old_filled_tiles)
 
-func rotate_clockwise():
-  for i in 3:
-    rotate_counterclockwise()
+  if _invalid_position():
+    # If we can't rotate the piece like this, try nudging it around a bit to see if it will fit.
+    x += 1
+    _update_position()
+  if _consider_reverting_move(old_x, old_y, _filled_tiles):
+    x -= 1
+    _update_position()
+  if _consider_reverting_move(old_x, old_y, _filled_tiles):
+    y -= 1
+    _update_position()
+  if _consider_reverting_move(old_x, old_y, _filled_tiles):
+    y += 1
+    _update_position()
+
+  _consider_reverting_move(old_x, old_y, old_filled_tiles)
 
 func drop():
   while !_invalid_position():
