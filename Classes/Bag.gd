@@ -1,4 +1,4 @@
-const Piece = preload("res://Classes/Piece.gd")
+const Piece = preload("res://Scripts/Piece.gd")
 
 var _bag = []
 

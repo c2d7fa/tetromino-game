@@ -1,6 +1,6 @@
 extends Node2D
 
-const Piece = preload("res://Classes/Piece.gd")
+const Piece = preload("res://Scripts/Piece.gd")
 const GameOverScene = preload("res://Scenes/GameOverScene.tscn")
 const Bag = preload("res://Classes/Bag.gd")
 

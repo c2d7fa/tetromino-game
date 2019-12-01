@@ -6,8 +6,8 @@ const tile_width = 48
 
 enum PieceType { I, O, T, J, L, S, Z }
 
-var x = 0
-var y = 0
+var x
+var y
 
 const board_width = 10
 const board_height = 16
@@ -15,13 +15,13 @@ const board_height = 16
 signal placement
 
 const coords = {
-  PieceType.I: [[1, 0], [1, 1], [1, 2], [1, 3]],
+  PieceType.I: [[0, 1], [1, 1], [2, 1], [3, 1]],
   PieceType.O: [[1, 0], [1, 1], [2, 0], [2, 1]],
-  PieceType.T: [[1, 0], [1, 1], [1, 2], [2, 1]],
-  PieceType.J: [[1, 0], [1, 1], [1, 2], [2, 0]],
-  PieceType.L: [[1, 0], [1, 1], [1, 2], [2, 2]],
-  PieceType.S: [[0, 0], [0, 1], [1, 1], [1, 2]],
-  PieceType.Z: [[1, 0], [1, 1], [0, 1], [0, 2]],
+  PieceType.T: [[1, 0], [0, 1], [1, 1], [2, 1]],
+  PieceType.J: [[0, 0], [0, 1], [1, 1], [2, 1]],
+  PieceType.L: [[2, 0], [0, 1], [1, 1], [2, 1]],
+  PieceType.S: [[0, 1], [1, 1], [1, 0], [2, 0]],
+  PieceType.Z: [[0, 0], [1, 0], [1, 1], [2, 1]],
 }
 
 const colors = {
@@ -123,6 +123,7 @@ func _init(piece_type, board, main, move_timer):
     _filled_tiles[coord[0]][coord[1]] = true
 
   x = ((board_width - 1) / 2) - _left_offset() - ((get_width() - 1) / 2)
+  y = 0
 
   _update_tiles()
   _update_position()
