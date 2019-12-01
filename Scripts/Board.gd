@@ -33,6 +33,13 @@ func _fill_tile(x, y, color):
   tile.modulate.b8 = color[2]
   add_child(tile)
 
+func top_row():
+  var min_r = INF
+  for tile in _filled_tiles:
+    if tile[1] < min_r:
+      min_r = tile[1]
+  return min_r
+
 func _is_row_filled(r):
   for c in width:
     if not is_filled(c, r):

@@ -123,7 +123,11 @@ func _init(piece_type, board, main, move_timer):
     _filled_tiles[coord[0]][coord[1]] = true
 
   x = ((board_width - 1) / 2) - _left_offset() - ((get_width() - 1) / 2)
-  y = 0
+
+  if _board.top_row() < get_height():
+    y = 0 - _top_offset() - get_height() + 1
+  else:
+    y = 0 - _top_offset()
 
   _update_tiles()
   _update_position()
