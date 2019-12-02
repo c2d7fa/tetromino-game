@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/GameOver.gd" type="Script" id=1]
+[ext_resource path="res://Assets/DejaVuSansCondensed.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/DejaVuSansCondensed-Bold.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 3 )
 
 [node name="GameOverScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -10,6 +18,7 @@ margin_left = 75.0
 margin_top = 142.0
 margin_right = 418.0
 margin_bottom = 299.0
+custom_fonts/font = SubResource( 1 )
 text = "GAME OVER
 
 Press any key to play again"
@@ -21,6 +30,7 @@ margin_left = 181.0
 margin_top = 308.0
 margin_right = 310.0
 margin_bottom = 357.0
+custom_fonts/font = SubResource( 2 )
 text = "Lines cleared: 99999"
 align = 1
 valign = 1
