@@ -36,7 +36,9 @@ func _unhandled_key_input(event):
 
 func on_row_cleared(r):
   GlobalState.on_line_cleared()
+  $ScoreBounce.stop()
   $ScoreBounce.play("ScoreBounce")
+  $ScreenShake.stop()
   $ScreenShake.play("ScreenShake")
 
 func _ready():
