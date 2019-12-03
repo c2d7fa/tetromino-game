@@ -6,15 +6,14 @@ const Bag = preload("res://Classes/Bag.gd")
 
 var piece: Piece
 
-var piece_type = 0
 var bag = Bag.new()
 
 func lose():
-  get_tree().change_scene_to(GameOverScene)
+  assert(get_tree().change_scene_to(GameOverScene) == OK)
 
 func _new_piece():
   piece = Piece.new(bag.draw(), $Board, self, $MoveTimer)
-  piece.connect("placement", self, "_on_placement")
+  assert(piece.connect("placement", self, "_on_placement") == OK)
   add_child(piece)
 
 func _on_placement():
@@ -35,9 +34,12 @@ func _unhandled_key_input(event):
   elif event.is_action_pressed("drop"):
     piece.drop()
 
+func on_row_cleared(r):
+  GlobalState.on_line_cleared()
+
 func _ready():
-  $Board.connect("row_cleared", GlobalState, "on_line_cleared")
-  GlobalState.connect("score_changed", $UI/ScoreLabel, "on_score_changed")
+  assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)
+  assert(GlobalState.connect("score_changed", $UI/ScoreLabel, "on_score_changed") == OK)
   GlobalState.reset()
   randomize()
   _new_piece()

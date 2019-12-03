@@ -68,7 +68,7 @@ func _clear_row(r):
     if tile[1] < r:
       tile[1] += 1
 
-  emit_signal("row_cleared")
+  emit_signal("row_cleared", r)
 
 func _try_clear():
   for r in height:

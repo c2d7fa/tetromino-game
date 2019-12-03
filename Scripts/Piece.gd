@@ -46,7 +46,6 @@ var _color
 var _board
 var _move_timer
 var _should_force_placement
-var _forced_placement_timer
 
 func get_filled_offsets():
   var result = []
@@ -122,6 +121,7 @@ func _init(piece_type, board, main, move_timer):
   for coord in coords[piece_type]:
     _filled_tiles[coord[0]][coord[1]] = true
 
+  # warning-ignore:integer_division
   x = ((board_width - 1) / 2) - _left_offset() - ((get_width() - 1) / 2)
 
   if _board.top_row() < get_height():
