@@ -19,6 +19,7 @@ margin_top = 142.0
 margin_right = 418.0
 margin_bottom = 299.0
 custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "GAME OVER
 
 Press any key to play again"
@@ -31,6 +32,7 @@ margin_top = 308.0
 margin_right = 310.0
 margin_bottom = 357.0
 custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Lines cleared: 99999"
 align = 1
 valign = 1

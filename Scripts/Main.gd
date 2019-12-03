@@ -36,6 +36,8 @@ func _unhandled_key_input(event):
 
 func on_row_cleared(r):
   GlobalState.on_line_cleared()
+  $ScoreBounce.play("ScoreBounce")
+  $ScreenShake.play("ScreenShake")
 
 func _ready():
   assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)
