@@ -71,7 +71,7 @@ func on_row_cleared(r):
 
 func _ready():
   assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)
-  assert(GlobalState.connect("score_changed", $UI/ScoreLabel, "on_score_changed") == OK)
+  assert(GlobalState.connect("score_changed", $UI/SidePanel/ScoreLabel, "on_score_changed") == OK)
   GlobalState.reset()
   randomize()
   _new_piece()
