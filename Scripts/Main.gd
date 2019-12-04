@@ -23,6 +23,7 @@ func _new_piece():
 
 func _on_placement():
   $DropSfx.play()
+  $BoardBounce.play("ScreenBounce")
   using_held_piece = false
   $Board.place_piece(piece)
   remove_child(piece)

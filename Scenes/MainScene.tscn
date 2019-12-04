@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/HeldPiece.gd" type="Script" id=2]
@@ -47,6 +47,63 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=7]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.12 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.8, -0.8, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -2, 2 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("UI/SidePanel/ScoreLabel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 0.5, 0 ),
+"update": 0,
+"values": [ Vector2( 5, 12 ), Vector2( 5, 5 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "ScreenBounce"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Board:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 2 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=12]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
 tracks/0/interp = 1
@@ -154,6 +211,11 @@ script = ExtResource( 5 )
 [node name="ScreenShake" type="AnimationPlayer" parent="."]
 anims/ScoreBounce = SubResource( 6 )
 anims/ScreenShake = SubResource( 7 )
+
+[node name="BoardBounce" type="AnimationPlayer" parent="."]
+anims/ScoreBounce = SubResource( 10 )
+anims/ScreenBounce = SubResource( 11 )
+anims/ScreenShake = SubResource( 12 )
 
 [node name="ScoreBounce" type="AnimationPlayer" parent="."]
 anims/ScoreBounce = SubResource( 8 )
