@@ -1,6 +1,7 @@
 extends Node2D
 
 const SingleTileGrey = preload("res://Scenes/SingleTileGrey.tscn")
+const DropParticles = preload("res://Scenes/DropParticles.tscn")
 
 const tile_width = 48
 
@@ -262,7 +263,15 @@ func rotate_clockwise():
 
   _consider_reverting_move(old_x, old_y, old_filled_tiles)
 
+func _spawn_drop_particles():
+  for pos in get_real_tile_positions():
+    var particles = DropParticles.instance()
+    particles.position.x = (pos[0] + 1) * tile_width - (tile_width / 2) # Not sure where the + 1 comes from. We probably have an off-by-one error somewhere...
+    particles.position.y = pos[1] * tile_width + (tile_width / 2)
+    get_parent().add_child(particles)
+
 func drop():
+  _spawn_drop_particles()
   while !_invalid_position():
     y += 1
     _update_position()
