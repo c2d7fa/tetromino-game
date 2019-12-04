@@ -20,7 +20,7 @@ run/main_scene="res://Scenes/MainMenu.tscn"
 
 [autoload]
 
-GlobalState="*res://Classes/GlobalState.gd"
+GlobalState="*res://GlobalState.gd"
 
 [display]
 
