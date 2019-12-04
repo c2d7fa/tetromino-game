@@ -11,7 +11,7 @@ gradient = SubResource( 1 )
 
 [sub_resource type="ParticlesMaterial" id=3]
 emission_shape = 2
-emission_box_extents = Vector3( 480, 0, 0 )
+emission_box_extents = Vector3( 480, 24, 0 )
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
