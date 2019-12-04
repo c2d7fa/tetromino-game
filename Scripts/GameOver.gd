@@ -1,8 +1,8 @@
-extends Node2D
+extends Panel
 
 func _input(event):
-  if event.is_pressed():
+  if event.is_action_pressed("start"):
     assert(get_tree().change_scene("res://Scenes/MainScene.tscn") == OK)
 
 func _ready():
-  $FinalScoreLabel.text = "Lines cleared: %s" % GlobalState.lines_cleared
+  $VBoxContainer/FinalScoreLabel.text = "Lines cleared: %s" % GlobalState.lines_cleared
