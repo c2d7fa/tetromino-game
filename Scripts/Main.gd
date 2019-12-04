@@ -3,6 +3,9 @@ extends Node2D
 const Piece = preload("res://Scripts/Piece.gd")
 const GameOverScene = preload("res://Scenes/GameOverScene.tscn")
 const Bag = preload("res://Classes/Bag.gd")
+const ClearParticles = preload("res://Scenes/ClearParticles.tscn")
+
+const tile_width = 48
 
 var piece: Piece
 var held = null
@@ -68,6 +71,10 @@ func on_row_cleared(r):
   $ScoreBounce.play("ScoreBounce")
   $ScreenShake.stop()
   $ScreenShake.play("ScreenShake")
+  var particles = ClearParticles.instance()
+  add_child(particles)
+  particles.position.y = tile_width * r + 0.5 * tile_width
+  particles.emitting = true
 
 func _ready():
   assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)

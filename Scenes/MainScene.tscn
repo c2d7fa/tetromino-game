@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/HeldPiece.gd" type="Script" id=2]
 [ext_resource path="res://Assets/DejaVuSansCondensed-Bold.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scenes/ScoreLabel.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Board.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/ClearParticles.tscn" type="PackedScene" id=6]
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.360784, 0.360784, 0.360784, 1 )
@@ -160,3 +161,5 @@ anims/ScreenShake = SubResource( 3 )
 [node name="ScoreBounce" type="AnimationPlayer" parent="."]
 anims/ScoreBounce = SubResource( 4 )
 anims/ScreenShake = SubResource( 5 )
+
+[node name="ClearParticles" parent="." instance=ExtResource( 6 )]
