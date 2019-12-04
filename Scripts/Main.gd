@@ -80,11 +80,16 @@ func on_row_cleared(r):
   particles.emitting = true
 
 func _ready():
+  get_tree().root.connect("size_changed", self, "_on_resize")
   assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)
   assert(GlobalState.connect("score_changed", $UI/SidePanel/ScoreLabel, "on_score_changed") == OK)
   GlobalState.reset()
   randomize()
   _new_piece()
 
-func _on_Board_row_cleared():
-  pass # Replace with function body.
+func _on_resize():
+  # Enfore 1:1 aspect ratio
+  if OS.window_size.x > OS.window_size.y:
+    OS.window_size.y = OS.window_size.x
+  else:
+    OS.window_size.x = OS.window_size.y

@@ -72,7 +72,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( -2, 2 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=8]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("UI/SidePanel/ScoreLabel:rect_position")
@@ -87,7 +87,7 @@ tracks/0/keys = {
 "values": [ Vector2( 5, 12 ), Vector2( 5, 5 ) ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=9]
 resource_name = "ScreenBounce"
 length = 0.2
 tracks/0/type = "value"
@@ -103,7 +103,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 2 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=10]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
 tracks/0/interp = 1
@@ -129,7 +129,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( -2, 2 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=11]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("UI/SidePanel/ScoreLabel:rect_position")
@@ -144,7 +144,7 @@ tracks/0/keys = {
 "values": [ Vector2( 16, 20 ), Vector2( 16, 8 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=12]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
 tracks/0/interp = 1
@@ -213,13 +213,13 @@ anims/ScoreBounce = SubResource( 6 )
 anims/ScreenShake = SubResource( 7 )
 
 [node name="BoardBounce" type="AnimationPlayer" parent="."]
-anims/ScoreBounce = SubResource( 10 )
-anims/ScreenBounce = SubResource( 11 )
-anims/ScreenShake = SubResource( 12 )
+anims/ScoreBounce = SubResource( 8 )
+anims/ScreenBounce = SubResource( 9 )
+anims/ScreenShake = SubResource( 10 )
 
 [node name="ScoreBounce" type="AnimationPlayer" parent="."]
-anims/ScoreBounce = SubResource( 8 )
-anims/ScreenShake = SubResource( 9 )
+anims/ScoreBounce = SubResource( 11 )
+anims/ScreenShake = SubResource( 12 )
 
 [node name="ClearSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
