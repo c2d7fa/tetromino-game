@@ -1,12 +1,32 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Assets/DejaVuSansCondensed-Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Scenes/ScoreLabel.gd" type="Script" id=3]
-[ext_resource path="res://Scripts/Board.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/HeldPiece.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Board.gd" type="Script" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.360784, 0.360784, 0.360784, 1 )
+border_width_left = 8
+border_color = Color( 0.258824, 0.258824, 0.258824, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color( 0.509804, 0.509804, 0.509804, 1 )
+
+[sub_resource type="DynamicFontData" id=8]
+font_path = "res://Assets/DejaVuSansCondensed-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=9]
+size = 12
+font_data = SubResource( 8 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "ScoreBounce"
@@ -98,8 +118,35 @@ custom_colors/font_color = Color( 0.858824, 0.858824, 0.858824, 1 )
 text = "Lines: 9999"
 script = ExtResource( 3 )
 
-[node name="Board" type="Node2D" parent="."]
+[node name="SidePanel" type="Panel" parent="UI"]
+margin_left = 480.0
+margin_right = 768.0
+margin_bottom = 768.0
+custom_styles/panel = SubResource( 6 )
+
+[node name="HeldPiece" type="Panel" parent="UI/SidePanel"]
+margin_left = 32.0
+margin_top = 608.0
+margin_right = 256.0
+margin_bottom = 736.0
+custom_styles/panel = SubResource( 7 )
 script = ExtResource( 4 )
+
+[node name="Tiles" type="Node2D" parent="UI/SidePanel/HeldPiece"]
+
+[node name="Label" type="Label" parent="UI/SidePanel/HeldPiece"]
+anchor_right = 0.16
+margin_left = 8.0
+margin_top = -23.0
+margin_right = 2.16
+margin_bottom = -8.0
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 0.686275, 0.686275, 0.686275, 1 )
+text = "CTRL: Hold piece"
+valign = 2
+
+[node name="Board" type="Node2D" parent="."]
+script = ExtResource( 5 )
 
 [node name="MoveTimer" type="Timer" parent="."]
 

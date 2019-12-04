@@ -58,6 +58,8 @@ func _unhandled_key_input(event):
       add_child(piece)
       # Update held piece
       held = current
+
+    $UI/SidePanel/HeldPiece.show_piece_type(held)
     using_held_piece = true
 
 func on_row_cleared(r):
