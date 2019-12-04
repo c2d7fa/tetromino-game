@@ -271,3 +271,6 @@ func drop():
 
 func _force_placement():
   emit_signal("placement")
+
+func get_type():
+  return _piece_type

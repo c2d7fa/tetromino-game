@@ -5,6 +5,8 @@ const GameOverScene = preload("res://Scenes/GameOverScene.tscn")
 const Bag = preload("res://Classes/Bag.gd")
 
 var piece: Piece
+var held = null
+var using_held_piece = false # Is true when we have already used held piece this turn
 
 var bag = Bag.new()
 
@@ -17,6 +19,7 @@ func _new_piece():
   add_child(piece)
 
 func _on_placement():
+  using_held_piece = false
   $Board.place_piece(piece)
   remove_child(piece)
   piece.disconnect("placement", self, "_on_placement")
@@ -33,6 +36,29 @@ func _unhandled_key_input(event):
     piece.rotate_clockwise()
   elif event.is_action_pressed("drop"):
     piece.drop()
+  elif event.is_action_pressed("hold"):
+    if using_held_piece:
+      # We are already using the held piece this turn. You can't swap more than once!
+      return
+
+    if held == null:
+      held = piece.get_type()
+      # Replace currently held piece with new piece
+      remove_child(piece)
+      piece.disconnect("placement", self, "_on_placement")
+      _new_piece()
+    else:
+      var current = piece.get_type()
+      # Replace currently held piece with old held piece
+      remove_child(piece)
+      piece.disconnect("placement", self, "_on_placement")
+      piece = Piece.new(held, $Board, self, $MoveTimer)
+      var err = piece.connect("placement", self, "_on_placement")
+      assert(err == OK)
+      add_child(piece)
+      # Update held piece
+      held = current
+    using_held_piece = true
 
 func on_row_cleared(r):
   GlobalState.on_line_cleared()
