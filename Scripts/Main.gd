@@ -22,6 +22,7 @@ func _new_piece():
   add_child(piece)
 
 func _on_placement():
+  $DropSfx.play()
   using_held_piece = false
   $Board.place_piece(piece)
   remove_child(piece)
@@ -66,6 +67,7 @@ func _unhandled_key_input(event):
     using_held_piece = true
 
 func on_row_cleared(r):
+  $ClearSfx.play()
   GlobalState.on_line_cleared()
   $ScoreBounce.stop()
   $ScoreBounce.play("ScoreBounce")

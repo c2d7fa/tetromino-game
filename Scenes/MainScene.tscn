@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/HeldPiece.gd" type="Script" id=2]
 [ext_resource path="res://Assets/DejaVuSansCondensed-Bold.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scenes/ScoreLabel.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Board.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Clear.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Drop.wav" type="AudioStream" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.360784, 0.360784, 0.360784, 1 )
@@ -156,3 +158,10 @@ anims/ScreenShake = SubResource( 7 )
 [node name="ScoreBounce" type="AnimationPlayer" parent="."]
 anims/ScoreBounce = SubResource( 8 )
 anims/ScreenShake = SubResource( 9 )
+
+[node name="ClearSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="DropSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -6.0
