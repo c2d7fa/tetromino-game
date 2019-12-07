@@ -32,10 +32,6 @@ func _on_placement():
   _new_piece()
 
 func _unhandled_key_input(event):
-  if event.is_pressed() && event.scancode == KEY_T:
-    GlobalState.on_line_cleared()
-    return
-
   if event.is_action_pressed("move_left"):
     piece.move_left()
   elif event.is_action_pressed("move_right"):
