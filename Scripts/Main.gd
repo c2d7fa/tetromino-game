@@ -20,6 +20,7 @@ func _new_piece():
   piece = Piece.new(bag.draw(), $Board, self, $MoveTimer)
   assert(piece.connect("placement", self, "_on_placement") == OK)
   add_child(piece)
+  $UI/SidePanel/NextPiece.show_piece_type(bag.next())
 
 func _on_placement():
   $DropSfx.play()
