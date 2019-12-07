@@ -151,7 +151,7 @@ func _on_should_force_placement():
   _should_force_placement = true
 
 func _reset_timer():
-  _move_timer.set_wait_time(0.5)
+  _move_timer.set_wait_time(GlobalState.forced_movement_delay())
   _move_timer.start()
 
 func _on_move_timeout():
@@ -162,7 +162,7 @@ func _on_move_timeout():
     if _should_force_placement:
       _force_placement()
     elif $ForcedPlacementTimer.is_stopped():
-      $ForcedPlacementTimer.set_wait_time(2)
+      $ForcedPlacementTimer.set_wait_time(GlobalState.forced_placement_delay())
       $ForcedPlacementTimer.start()
 
 

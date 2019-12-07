@@ -1,12 +1,13 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/HeldPiece.gd" type="Script" id=2]
 [ext_resource path="res://Assets/DejaVuSansCondensed-Bold.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scripts/ScoreLabel.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/Board.gd" type="Script" id=5]
-[ext_resource path="res://Assets/Clear.wav" type="AudioStream" id=6]
-[ext_resource path="res://Assets/Drop.wav" type="AudioStream" id=7]
+[ext_resource path="res://Scripts/SpeedLabel.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Board.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Clear.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Drop.wav" type="AudioStream" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.360784, 0.360784, 0.360784, 1 )
@@ -194,9 +195,9 @@ uppercase = true
 
 [node name="NextPiece" type="Panel" parent="UI/SidePanel"]
 margin_left = 32.0
-margin_top = 112.0
+margin_top = 240.0
 margin_right = 256.0
-margin_bottom = 240.0
+margin_bottom = 368.0
 custom_styles/panel = SubResource( 2 )
 script = ExtResource( 2 )
 
@@ -225,8 +226,19 @@ text = "Lines: 9999"
 uppercase = true
 script = ExtResource( 4 )
 
-[node name="Board" type="Node2D" parent="."]
+[node name="SpeedLabel" type="Label" parent="UI/SidePanel"]
+margin_left = 16.0
+margin_top = 45.0
+margin_right = 205.0
+margin_bottom = 74.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.858824, 0.858824, 0.858824, 1 )
+text = "Speed: 9999%"
+uppercase = true
 script = ExtResource( 5 )
+
+[node name="Board" type="Node2D" parent="."]
+script = ExtResource( 6 )
 
 [node name="MoveTimer" type="Timer" parent="."]
 
@@ -244,8 +256,8 @@ anims/ScoreBounce = SubResource( 11 )
 anims/ScreenShake = SubResource( 12 )
 
 [node name="ClearSfx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
+stream = ExtResource( 7 )
 
 [node name="DropSfx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
+stream = ExtResource( 8 )
 volume_db = -6.0

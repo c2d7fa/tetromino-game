@@ -32,6 +32,10 @@ func _on_placement():
   _new_piece()
 
 func _unhandled_key_input(event):
+  if event.is_pressed() && event.scancode == KEY_T:
+    GlobalState.on_line_cleared()
+    return
+
   if event.is_action_pressed("move_left"):
     piece.move_left()
   elif event.is_action_pressed("move_right"):
@@ -81,9 +85,10 @@ func on_row_cleared(r):
   particles.emitting = true
 
 func _ready():
-
   assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)
   assert(GlobalState.connect("score_changed", $UI/SidePanel/ScoreLabel, "on_score_changed") == OK)
+  var err = GlobalState.connect("speed_increased", $UI/SidePanel/SpeedLabel, "on_speed_increased")
+  assert(err == OK)
   GlobalState.reset()
   randomize()
   _new_piece()
