@@ -41,7 +41,6 @@ func stop_user_move_timer(id):
   timer.stop()
 
 func _on_user_move_timer(id):
-  print(id)
   match id:
     "Left":
       piece.move_left()
