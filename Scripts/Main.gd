@@ -31,13 +31,41 @@ func _on_placement():
   piece.disconnect("placement", self, "_on_placement")
   _new_piece()
 
+func start_user_move_timer(id):
+  var timer = get_node("UserMoveTimer%s" % id)
+  timer.set_wait_time(GlobalState.key_delay_time(id))
+  timer.start()
+
+func stop_user_move_timer(id):
+  var timer = get_node("UserMoveTimer%s" % id)
+  timer.stop()
+
+func _on_user_move_timer(id):
+  print(id)
+  match id:
+    "Left":
+      piece.move_left()
+    "Right":
+      piece.move_right()
+    "Down":
+      piece.move_down()
+
 func _unhandled_key_input(event):
   if event.is_action_pressed("move_left"):
     piece.move_left()
+    start_user_move_timer("Left")
+  elif event.is_action_released("move_left"):
+    stop_user_move_timer("Left")
   elif event.is_action_pressed("move_right"):
     piece.move_right()
+    start_user_move_timer("Right")
+  elif event.is_action_released("move_right"):
+    stop_user_move_timer("Right")
   elif event.is_action_pressed("move_down"):
     piece.move_down()
+    start_user_move_timer("Down")
+  elif event.is_action_released("move_down"):
+    stop_user_move_timer("Down")
   elif event.is_action_pressed("rotate_clockwise"):
     piece.rotate_clockwise()
   elif event.is_action_pressed("drop"):
@@ -81,6 +109,11 @@ func on_row_cleared(r):
   particles.emitting = true
 
 func _ready():
+  for id in ["Left", "Right", "Down"]:
+    var timer = get_node("UserMoveTimer%s" % id)
+    var err = timer.connect("timeout", self, "_on_user_move_timer", [id])
+    assert(err == OK)
+
   assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)
   assert(GlobalState.connect("score_changed", $UI/SidePanel/ScoreLabel, "on_score_changed") == OK)
   var err = GlobalState.connect("speed_increased", $UI/SidePanel/SpeedLabel, "on_speed_increased")

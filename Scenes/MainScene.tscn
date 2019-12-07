@@ -163,6 +163,7 @@ tracks/0/keys = {
 script = ExtResource( 1 )
 
 [node name="UI" type="Node2D" parent="."]
+editor/display_folded = true
 z_index = 1
 
 [node name="SidePanel" type="Panel" parent="UI"]
@@ -241,6 +242,12 @@ script = ExtResource( 5 )
 script = ExtResource( 6 )
 
 [node name="MoveTimer" type="Timer" parent="."]
+
+[node name="UserMoveTimerDown" type="Timer" parent="."]
+
+[node name="UserMoveTimerLeft" type="Timer" parent="."]
+
+[node name="UserMoveTimerRight" type="Timer" parent="."]
 
 [node name="ScreenShake" type="AnimationPlayer" parent="."]
 anims/ScoreBounce = SubResource( 6 )

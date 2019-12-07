@@ -57,3 +57,6 @@ func forced_movement_delay():
 
 func forced_placement_delay():
   return max((1.0 / speed) * 6, 2.5)
+
+func key_delay_time(direction):
+  return min(forced_movement_delay(), 0.2)
