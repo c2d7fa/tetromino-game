@@ -37,7 +37,8 @@ func reset():
   emit_signal("speed_increased")
 
 func _ready():
-  assert(get_tree().root.connect("size_changed", self, "_on_resize") == OK)
+  var err = get_tree().root.connect("size_changed", self, "_on_resize")
+  assert(err == OK)
 
 func _on_resize():
   # Enfore 1:1 aspect ratio

@@ -14,11 +14,13 @@ var using_held_piece = false # Is true when we have already used held piece this
 var bag = Bag.new()
 
 func lose():
-  assert(get_tree().change_scene_to(GameOverScene) == OK)
+  var err = get_tree().change_scene_to(GameOverScene)
+  assert(err == OK)
 
 func _new_piece():
   piece = Piece.new(bag.draw(), $Board, self, $MoveTimer)
-  assert(piece.connect("placement", self, "_on_placement") == OK)
+  var err = piece.connect("placement", self, "_on_placement")
+  assert(err == OK)
   add_child(piece)
   $UI/SidePanel/NextPiece.show_piece_type(bag.next())
 
@@ -113,9 +115,11 @@ func _ready():
     var err = timer.connect("timeout", self, "_on_user_move_timer", [id])
     assert(err == OK)
 
-  assert($Board.connect("row_cleared", self, "on_row_cleared") == OK)
-  assert(GlobalState.connect("score_changed", $UI/SidePanel/ScoreLabel, "on_score_changed") == OK)
-  var err = GlobalState.connect("speed_increased", $UI/SidePanel/SpeedLabel, "on_speed_increased")
+  var err = $Board.connect("row_cleared", self, "on_row_cleared")
+  assert(err == OK)
+  err = GlobalState.connect("score_changed", $UI/SidePanel/ScoreLabel, "on_score_changed")
+  assert(err == OK)
+  err = GlobalState.connect("speed_increased", $UI/SidePanel/SpeedLabel, "on_speed_increased")
   assert(err == OK)
   GlobalState.reset()
   randomize()
